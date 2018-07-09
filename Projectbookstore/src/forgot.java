@@ -1,3 +1,5 @@
+import java.sql.*;
+import javax.swing.JOptionPane;
 /*
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
@@ -14,10 +16,12 @@
  * @author student
  */
 public class forgot extends javax.swing.JFrame {
-
+Connection con;
+ResultSet rs;
     /** Creates new form forgot */
     public forgot() {
         initComponents();
+         con=connect.ConnecrDb();
     }
 
     /** This method is called from within the constructor to
@@ -47,7 +51,7 @@ public class forgot extends javax.swing.JFrame {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
-        jPanel2.setBorder(javax.swing.BorderFactory.createTitledBorder(javax.swing.BorderFactory.createMatteBorder(1, 1, 1, 1, new java.awt.Color(153, 51, 0)), "Forgot Password?", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Bookman Old Style", 0, 24), new java.awt.Color(204, 51, 0))); // NOI18N
+        jPanel2.setBorder(javax.swing.BorderFactory.createTitledBorder(javax.swing.BorderFactory.createMatteBorder(1, 1, 1, 1, new java.awt.Color(153, 51, 0)), "Forgot Password?", 0, 0, new java.awt.Font("Bookman Old Style", 0, 24), new java.awt.Color(204, 51, 0))); // NOI18N
 
         jLabel2.setFont(new java.awt.Font("Bookman Old Style", 0, 14)); // NOI18N
         jLabel2.setText("Name");
@@ -55,15 +59,24 @@ public class forgot extends javax.swing.JFrame {
         jLabel3.setFont(new java.awt.Font("Bookman Old Style", 0, 14)); // NOI18N
         jLabel3.setText("Your security question");
 
+        jTextField3.setEditable(false);
+
         jLabel5.setFont(new java.awt.Font("Bookman Old Style", 0, 14)); // NOI18N
         jLabel5.setText("Your Password");
 
         jLabel4.setFont(new java.awt.Font("Bookman Old Style", 0, 14)); // NOI18N
         jLabel4.setText("Answer");
 
+        jTextField2.setEditable(false);
+
         jButton1.setFont(new java.awt.Font("Bookman Old Style", 0, 14)); // NOI18N
         jButton1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Images/search.jpg"))); // NOI18N
         jButton1.setText("Search");
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton1ActionPerformed(evt);
+            }
+        });
 
         jLabel1.setFont(new java.awt.Font("Bookman Old Style", 0, 14)); // NOI18N
         jLabel1.setText("Username");
@@ -80,6 +93,11 @@ public class forgot extends javax.swing.JFrame {
         jButton2.setFont(new java.awt.Font("Bookman Old Style", 0, 14)); // NOI18N
         jButton2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Images/images.png"))); // NOI18N
         jButton2.setText("Retrieve");
+        jButton2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton2ActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
@@ -97,7 +115,7 @@ public class forgot extends javax.swing.JFrame {
                             .addComponent(jLabel3, javax.swing.GroupLayout.Alignment.LEADING))
                         .addGap(74, 74, 74)
                         .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jTextField5, javax.swing.GroupLayout.DEFAULT_SIZE, 163, Short.MAX_VALUE)
+                            .addComponent(jTextField5)
                             .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                                 .addComponent(jTextField4)
                                 .addComponent(jTextField3)
@@ -105,8 +123,8 @@ public class forgot extends javax.swing.JFrame {
                                 .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, 158, javax.swing.GroupLayout.PREFERRED_SIZE)))
                         .addGap(29, 29, 29)
                         .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jButton1, javax.swing.GroupLayout.DEFAULT_SIZE, 125, Short.MAX_VALUE)
-                            .addComponent(jButton2, javax.swing.GroupLayout.DEFAULT_SIZE, 125, Short.MAX_VALUE)))
+                            .addComponent(jButton1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(jButton2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 298, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addComponent(jButton3, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -139,8 +157,8 @@ public class forgot extends javax.swing.JFrame {
                 .addGap(18, 18, 18)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                        .addComponent(jTextField5, javax.swing.GroupLayout.DEFAULT_SIZE, 36, Short.MAX_VALUE)
-                        .addComponent(jButton2, javax.swing.GroupLayout.DEFAULT_SIZE, 41, Short.MAX_VALUE))
+                        .addComponent(jTextField5)
+                        .addComponent(jButton2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                     .addComponent(jLabel5, javax.swing.GroupLayout.PREFERRED_SIZE, 42, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
                 .addComponent(jButton3, javax.swing.GroupLayout.PREFERRED_SIZE, 42, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -184,10 +202,55 @@ public class forgot extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
-login a= new login();
+setVisible(false);
+        login a= new login();
 a.setVisible(true);
         // TODO add your handling code here:
     }//GEN-LAST:event_jButton3ActionPerformed
+
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+
+try{
+    String username=jTextField1.getText();
+    Statement stmt=(Statement)con.createStatement();
+    String query="Select Name,sec_question from user_account where Username='"+username+"';";
+    rs=stmt.executeQuery(query);
+    if(rs.next())
+    {String name=rs.getString("Name");
+    String question=rs.getString("sec_question");
+    jTextField2.setText(name);
+    jTextField3.setText(question); }     
+    else
+        JOptionPane.showMessageDialog(null, " There is no such username that exists");
+        
+
+} catch(Exception e){
+JOptionPane.showMessageDialog(null,e);    
+}
+    // TODO add your handling code here:
+    }//GEN-LAST:event_jButton1ActionPerformed
+
+    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
+try{
+    String answer=jTextField4.getText();
+    Statement stmt=(Statement)con.createStatement();
+    String query="Select Password from user_account where answer='"+answer+"';";
+    rs=stmt.executeQuery(query);
+    if(rs.next())
+    {String password=rs.getString("Password");
+    
+    jTextField5.setText(password);
+     }     
+    else
+        JOptionPane.showMessageDialog(null, " You have entered the wrong answer,try again");
+        
+
+} catch(Exception e){
+JOptionPane.showMessageDialog(null,e);    
+}
+        
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jButton2ActionPerformed
 
     /**
     * @param args the command line arguments

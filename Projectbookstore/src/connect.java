@@ -17,7 +17,7 @@ public static Connection ConnecrDb(){
     try {
 
      {Class.forName("java.sql.DriverManager");
-      Connection con=DriverManager.getConnection("jdbc:mysql://localhost:3306/ipproject","root","tiger");
+      Connection con=DriverManager.getConnection("jdbc:mysql://localhost:3306/ipproject","root","Minecraft123");
       return con;
        }
     }catch(Exception e) {

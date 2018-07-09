@@ -1,3 +1,5 @@
+import java.sql.*;
+import javax.swing.JOptionPane;
 /*
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
@@ -14,10 +16,12 @@
  * @author student
  */
 public class register extends javax.swing.JFrame {
-
+Connection con;
+ResultSet rs;
     /** Creates new form register */
     public register() {
         initComponents();
+        con=connect.ConnecrDb();
     }
 
     /** This method is called from within the constructor to
@@ -45,24 +49,24 @@ public class register extends javax.swing.JFrame {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
-        jPanel2.setBorder(javax.swing.BorderFactory.createTitledBorder(javax.swing.BorderFactory.createMatteBorder(1, 1, 1, 1, new java.awt.Color(0, 204, 255)), "Sign Up\n", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Bookman Old Style", 0, 24), new java.awt.Color(0, 153, 255))); // NOI18N
+        jPanel2.setBorder(javax.swing.BorderFactory.createTitledBorder(javax.swing.BorderFactory.createMatteBorder(1, 1, 1, 1, new java.awt.Color(0, 204, 255)), "Sign Up\n", 0, 0, new java.awt.Font("Bookman Old Style", 0, 24), new java.awt.Color(0, 153, 255))); // NOI18N
 
-        jLabel2.setFont(new java.awt.Font("Bookman Old Style", 0, 14));
+        jLabel2.setFont(new java.awt.Font("Bookman Old Style", 0, 14)); // NOI18N
         jLabel2.setText("Name");
 
-        jLabel3.setFont(new java.awt.Font("Bookman Old Style", 0, 14));
+        jLabel3.setFont(new java.awt.Font("Bookman Old Style", 0, 14)); // NOI18N
         jLabel3.setText("Password");
 
-        jLabel5.setFont(new java.awt.Font("Bookman Old Style", 0, 14));
+        jLabel5.setFont(new java.awt.Font("Bookman Old Style", 0, 14)); // NOI18N
         jLabel5.setText("Answer");
 
-        jLabel4.setFont(new java.awt.Font("Bookman Old Style", 0, 14));
+        jLabel4.setFont(new java.awt.Font("Bookman Old Style", 0, 14)); // NOI18N
         jLabel4.setText("Security Question");
 
-        jLabel1.setFont(new java.awt.Font("Bookman Old Style", 0, 14));
+        jLabel1.setFont(new java.awt.Font("Bookman Old Style", 0, 14)); // NOI18N
         jLabel1.setText("Username");
 
-        jButton3.setFont(new java.awt.Font("Bookman Old Style", 0, 14));
+        jButton3.setFont(new java.awt.Font("Bookman Old Style", 0, 14)); // NOI18N
         jButton3.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Images/hand.png"))); // NOI18N
         jButton3.setText("Go back");
         jButton3.addActionListener(new java.awt.event.ActionListener() {
@@ -71,9 +75,14 @@ public class register extends javax.swing.JFrame {
             }
         });
 
-        jButton2.setFont(new java.awt.Font("Bookman Old Style", 0, 14));
+        jButton2.setFont(new java.awt.Font("Bookman Old Style", 0, 14)); // NOI18N
         jButton2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Images/images.png"))); // NOI18N
         jButton2.setText("Create Account");
+        jButton2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton2ActionPerformed(evt);
+            }
+        });
 
         jComboBox1.setFont(new java.awt.Font("Bookman Old Style", 0, 14)); // NOI18N
         jComboBox1.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "What is your favourite food?", "What is your favourite pet? ", "What is your nickname?", "What kind of shoes do you like?" }));
@@ -100,7 +109,7 @@ public class register extends javax.swing.JFrame {
                     .addComponent(jTextField5)
                     .addComponent(jTextField3)
                     .addComponent(jTextField2)
-                    .addComponent(jTextField1, javax.swing.GroupLayout.DEFAULT_SIZE, 158, Short.MAX_VALUE)
+                    .addComponent(jTextField1)
                     .addComponent(jButton3, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, 248, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(56, 56, 56))
@@ -128,11 +137,11 @@ public class register extends javax.swing.JFrame {
                         .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, 41, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addGap(18, 18, 18)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jTextField5, javax.swing.GroupLayout.DEFAULT_SIZE, 42, Short.MAX_VALUE)
+                    .addComponent(jTextField5)
                     .addComponent(jLabel5, javax.swing.GroupLayout.PREFERRED_SIZE, 42, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jButton2, javax.swing.GroupLayout.DEFAULT_SIZE, 42, Short.MAX_VALUE)
+                    .addComponent(jButton2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(jButton3, javax.swing.GroupLayout.PREFERRED_SIZE, 42, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(45, 45, 45))
         );
@@ -157,10 +166,30 @@ public class register extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
-login a= new login();
+setVisible(false);
+        login a= new login();
 a.setVisible(true);
         // TODO add your handling code here:
     }//GEN-LAST:event_jButton3ActionPerformed
+
+    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
+try{
+    String username=jTextField1.getText();
+    String name=jTextField2.getText();
+    String password=jTextField3.getText();
+    String question =(String)jComboBox1.getSelectedItem();
+    String answer=jTextField5.getText();
+    Statement stmt=(Statement) con.createStatement();
+    String query="Insert into user_account values('"+username+"','"+name+"','"+password+"','"+question+"','"+answer+"');";
+    stmt.executeUpdate(query);
+    JOptionPane.showMessageDialog(null," Your Account has been created");
+    
+}catch(Exception e){
+      JOptionPane.showMessageDialog(null, e); 
+     
+}
+    // TODO add your handling code here:
+    }//GEN-LAST:event_jButton2ActionPerformed
 
     /**
     * @param args the command line arguments
